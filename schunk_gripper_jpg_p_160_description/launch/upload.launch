@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+
+<launch>
+  <arg name="prefix" default=""/>
+  <arg name="robot_name" default="schunk_gripper_jpg_p_160"/>
+  <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find schunk_gripper_jpg_p_160_description)/urdf/schunk_gripper_jpg_p_160_rviz.xacro' prefix:=$(arg prefix) robot_name:=$(arg robot_name)"/>
+</launch>

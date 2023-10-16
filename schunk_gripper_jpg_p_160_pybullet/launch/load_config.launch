@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+
+<launch>
+  <arg name="prefix" default=""/>
+  <arg name="robot_name" default="schunk_gripper_jpg_p_160"/>
+
+  <rosparam command="load" file="$(find schunk_gripper_jpg_p_160_pybullet)/config/gripper_param.yaml" subst_value="true"/>
+  <rosparam command="load" file="$(find schunk_gripper_jpg_p_160_pybullet)/config/pybullet_param.yaml" subst_value="true"/>
+</launch>

@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<launch>
+  <arg name="prefix" default=""/>
+  <arg name="robot_name" default="schunk_gripper_jpg_p_160"/>
+  <arg name="simulation" default="False" />
+
+  <include file="$(find schunk_gripper_jpg_p_160_description)/launch/upload.launch">
+    <arg name="prefix" value="$(arg prefix)" />
+    <arg name="robot_name" value="$(arg robot_name)" />
+  </include>
+
+  <node if = "$(arg simulation)" name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+    <param name="/use_gui" value="false"/>
+    <param name="rate" value="500"/>
+    <rosparam param="/source_list">[/schunk_gripper_jpg_p_160/joint_states]</rosparam>
+  </node>
+
+  <node name="joint_target_publisher" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" >
+    <param name="rate" value="500"/>
+    <remap if = "$(arg simulation)" from="joint_states" to="/schunk_gripper_jpg_p_160/joint_target"/>
+  </node>
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find schunk_gripper_jpg_p_160_description)/config/config.rviz" required="true" />
+</launch>

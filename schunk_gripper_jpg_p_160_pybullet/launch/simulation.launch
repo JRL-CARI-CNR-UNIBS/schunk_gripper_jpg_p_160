@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<launch>
+  <arg name="prefix" default=""/>
+  <arg name="robot_name" default="schunk_gripper_jpg_p_160"/>
+
+  <include file="$(find schunk_gripper_jpg_p_160_pybullet)/launch/load_config.launch">
+    <arg name="prefix" value="$(arg prefix)"/>
+    <arg name="robot_name" value="$(arg robot_name)"/>
+  </include>
+
+  <include file="$(find pybullet_utils)/launch/run_pybullet.launch" />
+</launch>

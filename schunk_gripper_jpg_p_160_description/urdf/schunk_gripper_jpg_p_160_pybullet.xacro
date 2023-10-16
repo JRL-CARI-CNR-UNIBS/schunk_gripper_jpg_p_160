@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+
+
+
+<!-- It is required to pass the args: robot_name-->
+<robot name="$(arg robot_name)" xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:include filename="$(find schunk_gripper_jpg_p_160_description)/urdf/schunk_gripper_jpg_p_160.xacro" />
+  <xacro:arg name="prefix" default=""/>
+
+  <xacro:property name="prefix" value="'$(arg prefix)'" />
+  <xacro:property name="type"   value="'pybullet'" />
+
+  <xacro:schunk_gripper_jpg_p_160 prefix="${prefix}" type="${type}"/>
+</robot>
