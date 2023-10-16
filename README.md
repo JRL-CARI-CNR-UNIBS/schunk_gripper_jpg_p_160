@@ -1,0 +1,1 @@
+# schunk_gripper_jpg_p_160
