@@ -3,8 +3,7 @@ pybullet_simulation:
     $(arg robot_name):
       package_name: 'schunk_gripper_jpg_p_160_description'
       xacro_file_path: 'urdf/schunk_gripper_jpg_p_160_pybullet.xacro'   # an urdf file with the same name will be generated
-      # controlled_joint_name: ['$(arg prefix)left_joint_circle'] # right_finger_joint     fingers_joint #,'left_finger_joint']
-      controlled_joint_name: ['$(arg prefix)left_joint_circle'] # right_finger_joint     fingers_joint #,'left_finger_joint']
+      controlled_joint_name: ['$(arg prefix)left_joint_circle']
       joint_control_mode : 'position' # positon (which is in fact POSITION_VELOCITY_PD), velocity, torque and pd.
       constraints:
         - parent_body: '$(arg robot_name)'
@@ -35,7 +34,7 @@ pybullet_simulation:
           child_link: '$(arg prefix)right_circle'
           type: 'gear'             # joint type: prismatic, fixed, point2point, gear
           gear_ratio: 1
-          erp: 10
+          erp: 5
           # erp: 0.1
           axis: [0,1,0]                   # joint axis, in child link frame
           parent_frame_position: [0,0,0]  # position of the joint frame relative to parent center of mass frame.

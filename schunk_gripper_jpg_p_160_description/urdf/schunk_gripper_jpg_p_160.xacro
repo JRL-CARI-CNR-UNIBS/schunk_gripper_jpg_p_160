@@ -1,485 +1,499 @@
 <?xml version="1.0" ?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
-<xacro:macro name="schunk_gripper_jpg_p_160" params="prefix:='schunk_' interface:=hardware_interface/EffortJointInterface type:=rviz">
+  <xacro:macro name="schunk_gripper_jpg_p_160" params="prefix:='schunk_' interface:=hardware_interface/EffortJointInterface type:=rviz">
 
-  <link name="${prefix}gripper_base" concave='yes'>
-    <inertial>
-      <origin
-        xyz="0.00002849 -0.00022471 0.03657638"
-        rpy="0 0 0" />
-      <mass
-        value="0.6818" />
-      <inertia
-        ixx="0.00154456"
-        ixy="0.00000154"
-        ixz="0.00000118"
-        iyy="0.00283260"
-        iyz="-0.00000405"
-        izz="0.00195998" />
-    </inertial>
-    <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://schunk_gripper_jpg_p_160_description/meshes/SCHUNK_parallel_gripper_base.STL" />
-      </geometry>
-      <material
-        name="">
-        <color
-          rgba="0.79216 0.81961 0.93333 1" />
-      </material>
-    </visual>
-    <collision concave="yes">
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://schunk_gripper_jpg_p_160_description/meshes/SCHUNK_parallel_gripper_base.STL" />
-      </geometry>
-    </collision>
-  </link>
+    <link name="${prefix}base" concave='yes'>
+      <inertial>
+        <origin
+          xyz="0.00002849 -0.00022471 0.03657638"
+          rpy="0 0 0" />
+        <mass
+          value="0.6818" />
+        <inertia
+          ixx="0.00154456"
+          ixy="0.00000154"
+          ixz="0.00000118"
+          iyy="0.00283260"
+          iyz="-0.00000405"
+          izz="0.00195998" />
+      </inertial>
+      <visual>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://schunk_gripper_jpg_p_160_description/meshes/SCHUNK_parallel_gripper_base.STL" />
+        </geometry>
+        <material
+          name="">
+          <color
+            rgba="0.79216 0.81961 0.93333 1" />
+        </material>
+      </visual>
+      <collision concave="yes">
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://schunk_gripper_jpg_p_160_description/meshes/SCHUNK_parallel_gripper_base.STL" />
+        </geometry>
+      </collision>
+    </link>
 
-  <joint name="${prefix}left_joint"
-    type="prismatic">
-    <origin
-      xyz="0.0006 0 0.0481"
-      rpy="0 0 0" />
-    <parent
-      link="${prefix}gripper_base" />
-    <child
-      link="${prefix}left_slider" />
-    <axis
-      xyz="1 0 0" />
-    <limit lower="0.000" upper="0.017" effort="1000" velocity="1000000"/>
-  </joint>
-  <link name="${prefix}left_slider" concave="yes">
-    <inertial>
+    <joint name="${prefix}left_joint"
+      type="prismatic">
       <origin
-        xyz="0.03936113 -0.00000000 0.01237203"
+        xyz="0.0006 0 0.0481"
         rpy="0 0 0" />
-      <mass
-        value="0.070" />
-      <inertia
-        ixx="0.00002269"
-        ixy="0.00000000"
-        ixz="0.00003426"
-        iyy="0.00015861"
-        iyz="-0.00000000"
-        izz="0.00015142" />
-    </inertial>
-    <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://schunk_gripper_jpg_p_160_description/meshes/SCHUNK_parallel_gripper_finger_slider.STL" />
-      </geometry>
-      <material
-        name="">
-        <color
-          rgba="0.79216 0.81961 0.93333 1" />
-      </material>
-    </visual>
-    <collision concave="yes">
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://schunk_gripper_jpg_p_160_description/meshes/SCHUNK_parallel_gripper_finger_slider.STL" />
-      </geometry>
-    </collision>
-  </link>
-  <joint name="${prefix}shadow_left_joint"
-    type="fixed">
-    <origin
-      xyz="0 0 0"
-      rpy="0 0 0" />
-    <parent
-      link="${prefix}left_slider" />
-    <child
-      link="${prefix}shadow_left_slider" />
-  </joint>
-  <link name="shadow_left_slider">
-    <inertial>
-      <origin xyz="0 0 0" rpy="0 0 0" />
-      <mass value="0.00001" />
-      <inertia ixx="0.00001" ixy="0.0" ixz="0.0" iyy="0.00001" iyz="0.0" izz="0.00001" />
-    </inertial>
-  </link>
+      <parent
+        link="${prefix}base" />
+      <child
+        link="${prefix}left_slider" />
+      <axis
+        xyz="1 0 0" />
+      <limit lower="0.000" upper="0.017" effort="1000" velocity="1000000"/>
+      <mimic joint="${prefix}left_joint_circle" multiplier="0.05" offset="-0.00086" />
+    </joint>
+    <link name="${prefix}left_slider" concave="yes">
+      <inertial>
+        <origin
+          xyz="0.03936113 -0.00000000 0.01237203"
+          rpy="0 0 0" />
+        <mass
+          value="0.070" />
+        <inertia
+          ixx="0.00002269"
+          ixy="0.00000000"
+          ixz="0.00003426"
+          iyy="0.00015861"
+          iyz="-0.00000000"
+          izz="0.00015142" />
+      </inertial>
+      <visual>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://schunk_gripper_jpg_p_160_description/meshes/SCHUNK_parallel_gripper_finger_slider.STL" />
+        </geometry>
+        <material
+          name="">
+          <color
+            rgba="0.79216 0.81961 0.93333 1" />
+        </material>
+      </visual>
+      <collision concave="yes">
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://schunk_gripper_jpg_p_160_description/meshes/SCHUNK_parallel_gripper_finger_slider.STL" />
+        </geometry>
+      </collision>
+    </link>
 
-  <joint name="${prefix}right_joint"
-    type="prismatic">
-    <origin
-      xyz="-0.0006 0 0.0481"
-      rpy="0 0 3.14159" />
-    <parent
-      link="${prefix}gripper_base" />
-    <child
-      link="${prefix}right_slider" />
-    <axis
-      xyz="1 0 0" />
-    <limit lower="0.000" upper="0.017" effort="100000" velocity="1000000"/>
-    <mimic joint="${prefix}left_joint" multiplier="1" offset="0" />
-  </joint>
-  <link name="${prefix}right_slider" concave="yes">
-    <inertial>
+    <joint name="${prefix}right_joint"
+      type="prismatic">
       <origin
-        xyz="0.03936113 -0.00000000 0.01237203"
-        rpy="0 0 0" />
-      <mass
-        value="0.070" />
-      <inertia
-        ixx="0.00002269"
-        ixy="0.00000000"
-        ixz="0.00003426"
-        iyy="0.00015861"
-        iyz="-0.00000000"
-        izz="0.00015142" />
-    </inertial>
-    <visual>
+        xyz="-0.0006 0 0.0481"
+        rpy="0 0 3.14159" />
+      <parent
+        link="${prefix}base" />
+      <child
+        link="${prefix}right_slider" />
+      <axis
+        xyz="1 0 0" />
+      <limit lower="0.000" upper="0.017" effort="100000" velocity="1000000"/>
+      <mimic joint="${prefix}left_joint" multiplier="1" offset="0" />
+    </joint>
+    <link name="${prefix}right_slider" concave="yes">
+      <inertial>
+        <origin
+          xyz="0.03936113 -0.00000000 0.01237203"
+          rpy="0 0 0" />
+        <mass
+          value="0.070" />
+        <inertia
+          ixx="0.00002269"
+          ixy="0.00000000"
+          ixz="0.00003426"
+          iyy="0.00015861"
+          iyz="-0.00000000"
+          izz="0.00015142" />
+      </inertial>
+      <visual>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://schunk_gripper_jpg_p_160_description/meshes/SCHUNK_parallel_gripper_finger_slider.STL" />
+        </geometry>
+        <material
+          name="">
+          <color
+            rgba="0.79216 0.81961 0.93333 1" />
+        </material>
+      </visual>
+      <collision concave="yes">
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://schunk_gripper_jpg_p_160_description/meshes/SCHUNK_parallel_gripper_finger_slider.STL" />
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="${prefix}left_finger_joint" type="fixed">
+      <origin xyz="0.0285 0 0.0289" rpy="0 0 3.14159" />
+      <parent link="${prefix}left_slider" />
+      <child link="${prefix}left_finger" />
+      <axis xyz="0 0 0" />
+    </joint>
+    <link name="${prefix}left_finger" concave="yes">
+      <inertial>
+        <origin
+          xyz="-0.01665438 -0.00000438 0.05348249"
+          rpy="0 0 0" />
+        <mass
+          value="0.10" />
+        <inertia
+          ixx="0.00041666"
+          ixy="-0.00000001"
+          ixz="-0.00005970"
+          iyy="0.00047996"
+          iyz="-0.00000004"
+          izz="0.00007666" />
+      </inertial>
+      <visual>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://schunk_gripper_jpg_p_160_description/meshes/Finger.STL" />
+        </geometry>
+        <material
+          name="">
+          <color
+            rgba="0.79216 0.81961 0.93333 1" />
+        </material>
+      </visual>
+      <collision concave="yes">
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://schunk_gripper_jpg_p_160_description/meshes/Finger.STL" />
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="${prefix}right_finger_joint" type="fixed">
+      <origin xyz="0.0285 0 0.0289" rpy="0 0 3.14159" />
+      <parent link="${prefix}right_slider" />
+      <child link="${prefix}right_finger" />
+      <axis xyz="0 0 0" />
+    </joint>
+    <link name="${prefix}right_finger" concave="yes">
+      <inertial>
+        <origin
+          xyz="-0.01665438 -0.00000438 0.05348249"
+          rpy="0 0 0" />
+        <mass
+          value="0.10" />
+        <inertia
+          ixx="0.00041666"
+          ixy="-0.00000001"
+          ixz="-0.00005970"
+          iyy="0.00047996"
+          iyz="-0.00000004"
+          izz="0.00007666" />
+      </inertial>
+      <visual>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://schunk_gripper_jpg_p_160_description/meshes/Finger.STL" />
+        </geometry>
+        <material
+          name="">
+          <color
+            rgba="0.79216 0.81961 0.93333 1" />
+        </material>
+      </visual>
+      <collision concave="yes">
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://schunk_gripper_jpg_p_160_description/meshes/Finger.STL" />
+        </geometry>
+      </collision>
+    </link>
+
+    <xacro:if value="${type == 'rviz'}">
+      <joint name="${prefix}working_point_joint" type="fixed">
+        <origin xyz="0.0 0 0.163" rpy="0 0 0" />
+        <parent link="${prefix}base" />
+        <child link="${prefix}working_point" />
+        <axis xyz="0 0 0" />
+      </joint>
+      <link name="${prefix}working_point" />
+    </xacro:if>
+
+    <xacro:include filename="$(find schunk_gripper_jpg_p_160_description)/urdf/transmission.xacro" />
+    <xacro:transmission prefix="${prefix}"/>
+
+    <joint name="${prefix}left_joint_circle"
+      type="revolute">
+      <origin
+        xyz="0.0 0.0 0.0"
+        rpy="0 0.0 0" />
+      <parent
+        link="${prefix}base" />
+      <child
+        link="${prefix}left_circle" />
+      <axis
+        xyz="0 1 0" />
+      <limit lower="-100" upper="100" effort="10000" velocity="1000"/>
+    </joint>
+    <link name="${prefix}left_circle">
+      <inertial>
+        <origin
+          xyz="0.0 -0.0 0.0"
+          rpy="0 0 0" />
+        <mass
+          value="0.0001" />
+        <inertia
+          ixx="0.000001"
+          ixy="0.0"
+          ixz="0.0"
+          iyy="0.000001"
+          iyz="-0.0"
+          izz="0.000001" />
+      </inertial>
+    </link>
+    <joint name="${prefix}right_joint_circle"
+      type="revolute">
+      <origin
+        xyz="0.0 0.0 0.0"
+        rpy="0 0.0 0" />
+      <parent
+        link="${prefix}base" />
+      <child
+        link="${prefix}right_circle" />
+      <axis
+        xyz="0 1 0" />
+      <limit lower="-100" upper="100" effort="10000" velocity="1000"/>
+    </joint>
+    <link name="${prefix}right_circle">
+      <inertial>
+        <origin
+          xyz="0.0 -0.0 0.0"
+          rpy="0 0 0" />
+        <mass
+          value="0.0001" />
+        <inertia
+          ixx="0.000001"
+          ixy="0.0"
+          ixz="0.0"
+          iyy="0.000001"
+          iyz="-0.0"
+          izz="0.000001" />
+      </inertial>
+    </link>
+
+
+    <joint name="${prefix}middle_left_joint_circle"
+      type="prismatic">
       <origin
         xyz="0 0 0"
         rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://schunk_gripper_jpg_p_160_description/meshes/SCHUNK_parallel_gripper_finger_slider.STL" />
+      <parent
+        link="${prefix}left_circle" />
+      <child
+        link="${prefix}middle_left_circle" />
+      <axis
+        xyz="0 0 1" />
+      <limit lower="-1" upper="1" effort="10000" velocity="1000"/>
+    </joint>
+    <link name="${prefix}middle_left_circle">
+      <inertial>
+        <origin
+          xyz="0.0 -0.0 0.0"
+          rpy="0 0 0" />
+        <mass
+          value="0.0001" />
+        <inertia
+          ixx="0.000001"
+          ixy="0.0"
+          ixz="0.0"
+          iyy="0.000001"
+          iyz="-0.0"
+          izz="0.000001" />
+      </inertial>
+    </link>
+    <joint name="${prefix}end_left_joint_circle"
+      type="revolute">
+      <origin
+        xyz="0.0 0.0 0.0"
+        rpy="0 0 0" />
+      <parent
+        link="${prefix}middle_left_circle" />
+      <child
+        link="${prefix}end_left_circle" />
+      <axis
+        xyz="0 1 0" />
+      <limit lower="-200" upper="200" effort="1000" velocity="1000"/>
+    </joint>
+    <link name="${prefix}end_left_circle">
+      <inertial>
+        <origin
+          xyz="0.0 -0.0 0.0"
+          rpy="0 0 0" />
+        <mass
+          value="0.0001" />
+        <inertia
+          ixx="0.000001"
+          ixy="0.0"
+          ixz="0.0"
+          iyy="0.000001"
+          iyz="-0.0"
+          izz="0.000001" />
+      </inertial>
+      <visual>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <box size="0.01 0.05 0.01"/>
       </geometry>
-      <material
-        name="">
-        <color
-          rgba="0.79216 0.81961 0.93333 1" />
-      </material>
-    </visual>
-    <collision concave="yes">
+        <material
+          name="">
+          <color
+            rgba="0.79216 0.81961 0.93333 1" />
+        </material>
+      </visual>
+    </link>
+
+    <joint name="${prefix}middle_right_joint_circle"
+      type="prismatic">
       <origin
         xyz="0 0 0"
         rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://schunk_gripper_jpg_p_160_description/meshes/SCHUNK_parallel_gripper_finger_slider.STL" />
+      <parent
+        link="${prefix}right_circle" />
+      <child
+        link="${prefix}middle_right_circle" />
+      <axis
+        xyz="0 0 1" />
+      <limit lower="-1" upper="1" effort="10000" velocity="1000"/>
+    </joint>
+    <link name="${prefix}middle_right_circle">
+      <inertial>
+        <origin
+          xyz="0.0 -0.0 0.0"
+          rpy="0 0 0" />
+        <mass
+          value="0.0001" />
+        <inertia
+          ixx="0.000001"
+          ixy="0.0"
+          ixz="0.0"
+          iyy="0.000001"
+          iyz="-0.0"
+          izz="0.000001" />
+      </inertial>
+    </link>
+    <joint name="${prefix}end_right_joint_circle"
+      type="revolute">
+      <origin
+        xyz="0.0 0.0 0.0"
+        rpy="0 0 0" />
+      <parent
+        link="${prefix}middle_right_circle" />
+      <child
+        link="${prefix}end_right_circle" />
+      <axis
+        xyz="0 1 0" />
+      <limit lower="-200" upper="200" effort="1000" velocity="1000"/>
+    </joint>
+    <link name="${prefix}end_right_circle">
+      <inertial>
+        <origin
+          xyz="0.0 -0.0 0.0"
+          rpy="0 0 0" />
+        <mass
+          value="0.0001" />
+        <inertia
+          ixx="0.000001"
+          ixy="0.0"
+          ixz="0.0"
+          iyy="0.000001"
+          iyz="-0.0"
+          izz="0.000001" />
+      </inertial>
+      <visual>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <box size="0.01 0.05 0.01"/>
       </geometry>
-    </collision>
-  </link>
-  <joint name="${prefix}shadow_right_joint"
-    type="fixed">
-    <origin
-      xyz="0 0 0"
-      rpy="0 0 0" />
-    <parent
-      link="${prefix}right_slider" />
-    <child
-      link="${prefix}shadow_right_slider" />
-  </joint>
-  <link name="shadow_right_slider">
-    <inertial>
-      <origin xyz="0 0 0" rpy="0 0 0" />
-      <mass value="0.00001" />
-      <inertia ixx="0.00001" ixy="0.0" ixz="0.0" iyy="0.00001" iyz="0.0" izz="0.00001" />
-    </inertial>
-  </link>
+        <material
+          name="">
+          <color
+            rgba="0.79216 0.81961 0.93333 1" />
+        </material>
+      </visual>
+    </link>
 
-  <joint name="${prefix}left_finger_joint" type="fixed">
-    <origin xyz="0.0285 0 0.0289" rpy="0 0 3.14159" />
-    <parent link="${prefix}left_slider" />
-    <child link="${prefix}left_finger" />
-    <axis xyz="0 0 0" />
-  </joint>
-  <link name="${prefix}left_finger" concave="yes">
-    <inertial>
-      <origin
-        xyz="-0.01665438 -0.00000438 0.05348249"
-        rpy="0 0 0" />
-      <mass
-        value="0.10" />
-      <inertia
-        ixx="0.00041666"
-        ixy="-0.00000001"
-        ixz="-0.00005970"
-        iyy="0.00047996"
-        iyz="-0.00000004"
-        izz="0.00007666" />
-    </inertial>
-    <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://schunk_gripper_jpg_p_160_description/meshes/Finger.STL" />
-      </geometry>
-      <material
-        name="">
-        <color
-          rgba="0.79216 0.81961 0.93333 1" />
-      </material>
-    </visual>
-    <collision concave="yes">
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://schunk_gripper_jpg_p_160_description/meshes/Finger.STL" />
-      </geometry>
-    </collision>
-  </link>
-
-  <joint name="${prefix}right_finger_joint" type="fixed">
-    <origin xyz="0.0285 0 0.0289" rpy="0 0 3.14159" />
-    <parent link="${prefix}right_slider" />
-    <child link="${prefix}right_finger" />
-    <axis xyz="0 0 0" />
-  </joint>
-  <link name="${prefix}right_finger" concave="yes">
-    <inertial>
-      <origin
-        xyz="-0.01665438 -0.00000438 0.05348249"
-        rpy="0 0 0" />
-      <mass
-        value="0.10" />
-      <inertia
-        ixx="0.00041666"
-        ixy="-0.00000001"
-        ixz="-0.00005970"
-        iyy="0.00047996"
-        iyz="-0.00000004"
-        izz="0.00007666" />
-    </inertial>
-    <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://schunk_gripper_jpg_p_160_description/meshes/Finger.STL" />
-      </geometry>
-      <material
-        name="">
-        <color
-          rgba="0.79216 0.81961 0.93333 1" />
-      </material>
-    </visual>
-    <collision concave="yes">
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://schunk_gripper_jpg_p_160_description/meshes/Finger.STL" />
-      </geometry>
-    </collision>
-  </link>
-
-
-  <xacro:include filename="$(find schunk_gripper_jpg_p_160_description)/urdf/transmission.xacro" />
-  <xacro:transmission prefix="${prefix}"/>
-
-  <joint name="${prefix}left_joint_circle"
-    type="revolute">
-    <origin
-      xyz="0.0 0.0 0.0"
-      rpy="0 0.0 0" />
-    <parent
-      link="${prefix}gripper_base" />
-    <child
-      link="${prefix}left_circle" />
-    <axis
-      xyz="0 1 0" />
-    <limit lower="-100" upper="100" effort="10000" velocity="1000"/>
-  </joint>
-  <link name="${prefix}left_circle">
-    <inertial>
-      <origin
-        xyz="0.0 -0.0 0.0"
-        rpy="0 0 0" />
-      <mass
-        value="0.0001" />
-      <inertia
-        ixx="0.000001"
-        ixy="0.0"
-        ixz="0.0"
-        iyy="0.000001"
-        iyz="-0.0"
-        izz="0.000001" />
-    </inertial>
-  </link>
-  <joint name="${prefix}middle_left_joint_circle"
-    type="prismatic">
-    <origin
-      xyz="0 0 0"
-      rpy="0 0 0" />
-    <parent
-      link="${prefix}left_circle" />
-    <child
-      link="${prefix}middle_left_circle" />
-    <axis
-      xyz="0 0 1" />
-    <limit lower="-1" upper="1" effort="10000" velocity="1000"/>
-  </joint>
-  <link name="${prefix}middle_left_circle">
-    <inertial>
-      <origin
-        xyz="0.0 -0.0 0.0"
-        rpy="0 0 0" />
-      <mass
-        value="0.0001" />
-      <inertia
-        ixx="0.000001"
-        ixy="0.0"
-        ixz="0.0"
-        iyy="0.000001"
-        iyz="-0.0"
-        izz="0.000001" />
-    </inertial>
-  </link>
-  <joint name="${prefix}end_left_joint_circle"
-    type="revolute">
-    <origin
-      xyz="0.0 0.0 0.0"
-      rpy="0 0 0" />
-    <parent
-      link="${prefix}middle_left_circle" />
-    <child
-      link="${prefix}end_left_circle" />
-    <axis
-      xyz="0 1 0" />
-    <limit lower="-200" upper="200" effort="1000" velocity="1000"/>
-  </joint>
-  <link name="${prefix}end_left_circle">
-    <inertial>
-      <origin
-        xyz="0.0 -0.0 0.0"
-        rpy="0 0 0" />
-      <mass
-        value="0.0001" />
-      <inertia
-        ixx="0.000001"
-        ixy="0.0"
-        ixz="0.0"
-        iyy="0.000001"
-        iyz="-0.0"
-        izz="0.000001" />
-    </inertial>
-    <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <box size="0.01 0.1 0.01"/>
-     </geometry>
-      <material
-        name="">
-        <color
-          rgba="0.79216 0.81961 0.93333 1" />
-      </material>
-    </visual>
-  </link>
-
-  <joint name="${prefix}right_joint_circle"
-    type="revolute">
-    <origin
-      xyz="0.0 0.0 0.0"
-      rpy="0 0.0 0" />
-    <parent
-      link="${prefix}gripper_base" />
-    <child
-      link="${prefix}right_circle" />
-    <axis
-      xyz="0 1 0" />
-    <limit lower="-100" upper="100" effort="10000" velocity="1000"/>
-  </joint>
-  <link name="${prefix}right_circle">
-    <inertial>
-      <origin
-        xyz="0.0 -0.0 0.0"
-        rpy="0 0 0" />
-      <mass
-        value="0.0001" />
-      <inertia
-        ixx="0.000001"
-        ixy="0.0"
-        ixz="0.0"
-        iyy="0.000001"
-        iyz="-0.0"
-        izz="0.000001" />
-    </inertial>
-  </link>
-  <joint name="${prefix}middle_right_joint_circle"
-    type="prismatic">
-    <origin
-      xyz="0 0 0"
-      rpy="0 0 0" />
-    <parent
-      link="${prefix}right_circle" />
-    <child
-      link="${prefix}middle_right_circle" />
-    <axis
-      xyz="0 0 1" />
-    <limit lower="-1" upper="1" effort="10000" velocity="1000"/>
-  </joint>
-  <link name="${prefix}middle_right_circle">
-    <inertial>
-      <origin
-        xyz="0.0 -0.0 0.0"
-        rpy="0 0 0" />
-      <mass
-        value="0.0001" />
-      <inertia
-        ixx="0.000001"
-        ixy="0.0"
-        ixz="0.0"
-        iyy="0.000001"
-        iyz="-0.0"
-        izz="0.000001" />
-    </inertial>
-  </link>
-  <joint name="${prefix}end_right_joint_circle"
-    type="revolute">
-    <origin
-      xyz="0.0 0.0 0.0"
-      rpy="0 0 0" />
-    <parent
-      link="${prefix}middle_right_circle" />
-    <child
-      link="${prefix}end_right_circle" />
-    <axis
-      xyz="0 1 0" />
-    <limit lower="-200" upper="200" effort="1000" velocity="1000"/>
-  </joint>
-  <link name="${prefix}end_right_circle">
-    <inertial>
-      <origin
-        xyz="0.0 -0.0 0.0"
-        rpy="0 0 0" />
-      <mass
-        value="0.0001" />
-      <inertia
-        ixx="0.000001"
-        ixy="0.0"
-        ixz="0.0"
-        iyy="0.000001"
-        iyz="-0.0"
-        izz="0.000001" />
-    </inertial>
-    <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <box size="0.01 0.1 0.01"/>
-     </geometry>
-      <material
-        name="">
-        <color
-          rgba="0.79216 0.81961 0.93333 1" />
-      </material>
-    </visual>
-  </link>
-
-</xacro:macro>
+    <xacro:unless value="${type == 'rviz'}">
+      <joint name="${prefix}shadow_left_joint"
+        type="fixed">
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <parent
+          link="${prefix}left_slider" />
+        <child
+          link="${prefix}shadow_left_slider" />
+      </joint>
+      <link name="${prefix}shadow_left_slider">
+        <inertial>
+          <origin xyz="0 0 0" rpy="0 0 0" />
+          <mass value="0.00001" />
+          <inertia ixx="0.00001" ixy="0.0" ixz="0.0" iyy="0.00001" iyz="0.0" izz="0.00001" />
+        </inertial>
+      </link>
+      <joint name="${prefix}shadow_right_joint"
+        type="fixed">
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <parent
+          link="${prefix}right_slider" />
+        <child
+          link="${prefix}shadow_right_slider" />
+      </joint>
+      <link name="${prefix}shadow_right_slider">
+        <inertial>
+          <origin xyz="0 0 0" rpy="0 0 0" />
+          <mass value="0.00001" />
+          <inertia ixx="0.00001" ixy="0.0" ixz="0.0" iyy="0.00001" iyz="0.0" izz="0.00001" />
+        </inertial>
+      </link>
+    </xacro:unless>
+  </xacro:macro>
 </robot>

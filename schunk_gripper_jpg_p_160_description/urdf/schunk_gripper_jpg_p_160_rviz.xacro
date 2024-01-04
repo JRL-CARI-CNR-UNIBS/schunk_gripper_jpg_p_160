@@ -14,7 +14,7 @@
   <joint name="world_joint" type="fixed">
     <origin xyz="0 0 0.0" rpy="0 0 0"/>
     <parent link="world" />
-    <child link="${prefix}gripper_base" />
+    <child link="${prefix}base" />
   </joint>
 
 </robot>

@@ -5,9 +5,9 @@ import numpy
 import sys
 from sensor_msgs.msg import JointState
 from std_msgs.msg import Header
+from std_srvs.srv import SetBool, SetBoolResponse
 from threading import Thread
 from pybullet_utils.srv import ChangeControlMode
-from schunk_gripper_jpg_p_160_description.srv import MoveGripper
 
 
 def green_p(msg):
@@ -34,18 +34,7 @@ def move_gripper(srv, controlled_joint_name, target_position, joint_target_publi
     joint_min_val = 0.0125
     joint_max_val = 0.34
 
-    target_velocity = (joint_max_val - joint_min_val) / 2
-
-    control_mode = srv.control_mode
-
-    if (control_mode != 'open' and control_mode != 'close'):
-        red_p('Wrong control mode')
-        return 'false'
-    if (control_mode == 'open'):
-        print('Mode: open.')
-
-    if (control_mode == 'close'):
-        print('Mode: close.')
+    target_velocity = (joint_max_val - joint_min_val) / 0.1
 
     print('Wait for ' + js_topic_name)
     initial_joint_state = rospy.wait_for_message(js_topic_name, JointState)
@@ -54,15 +43,19 @@ def move_gripper(srv, controlled_joint_name, target_position, joint_target_publi
     target_position[0] = initial_joint_state.position[initial_joint_state.name.index(controlled_joint_name)]
 
     finish = False
-    if (control_mode == 'close'):
+
+    if (srv.data):
         dx = -abs(target_velocity) / joint_target_publish_rate
-    elif (control_mode == 'open'):
+    else:
         dx = abs(target_velocity) / joint_target_publish_rate
 
     rate = rospy.Rate(joint_target_publish_rate)
     print('dx: ' + str(dx))
     while not finish:
         target_position[0] += dx
+        if (target_position[0] < 0):
+            target_position[0] = 0
+            finish = True
         real_position = real_js[0].position[real_js[0].name.index(controlled_joint_name)]
         print("Joint_states: " + str(real_position))
 
@@ -70,9 +63,9 @@ def move_gripper(srv, controlled_joint_name, target_position, joint_target_publi
         if ((real_position < joint_min_val and dx < 0) or (real_position > joint_max_val and dx > 0)):
             finish = True
             print('Joint limit: ' + str(real_position))
-#            target_position[0] = real_position
         rate.sleep()
-    return 'true'
+
+    return SetBoolResponse(True,"Gripper motion ends")
 
 
 def jointStateSubscriber(data, args):
@@ -104,7 +97,7 @@ def main(my_argv):
         gripper_name = my_argv[2]
         controlled_joint_name = 'left_joint_circle'
     elif (len(my_argv) == 6):
-        node_name = my_argv[3].replace('__name:=', '')
+        node_name = my_argv[4].replace('__name:=', '')
         robot_name = my_argv[1]
         gripper_name = my_argv[2]
         controlled_joint_prefix = my_argv[3]
@@ -134,7 +127,7 @@ def main(my_argv):
     real_js = []
 
     try:
-        real_js = [rospy.wait_for_message('/joint_states', JointState, timeout=2)]
+        real_js = [rospy.wait_for_message('/joint_states', JointState, timeout=10)]
         js_topic_name = '/joint_states'
     except (rospy.ROSException):
         print("/joint_states doesn't recived")
@@ -158,14 +151,15 @@ def main(my_argv):
 
     rospy.Subscriber(js_topic_name, JointState, jointStateSubscriber, (real_js, ))
 
-    jt_pub = rospy.Publisher('/' + gripper_name + '/joint_target', JointState, queue_size=1)
+    jt_pub = rospy.Publisher('/' + robot_name + '/joint_target', JointState, queue_size=1)
 
     jt_pub_thread = Thread(target=jointTargetPublisher, args=(jt_pub, joint_target_publish_rate, controlled_joint_name, position))
     jt_pub_thread.start()
 
-    rospy.Service("/move_" + gripper_name, MoveGripper, lambda msg: move_gripper(msg, controlled_joint_name, position, joint_target_publish_rate, real_js, js_topic_name))
+#    rospy.Service("/move_" + gripper_name + "_gripper", MoveGripper, lambda msg: move_gripper(msg, controlled_joint_name, position, joint_target_publish_rate, real_js, js_topic_name))
+    rospy.Service("/move_" + gripper_name + "_gripper", SetBool, lambda msg: move_gripper(msg, controlled_joint_name, position, joint_target_publish_rate, real_js, js_topic_name))
 
-    print("Service /move_" + gripper_name + " started")
+    print("Service /move_" + gripper_name + "_gripper started")
 
     rospy.spin()
     jt_pub_thread.join()

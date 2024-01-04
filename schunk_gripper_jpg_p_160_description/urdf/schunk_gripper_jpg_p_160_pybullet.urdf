@@ -5,7 +5,7 @@
 <!-- =================================================================================== -->
 <!-- It is required to pass the args: robot_name-->
 <robot name="schunk_gripper_jpg_p_160">
-  <link concave="yes" name="gripper_base">
+  <link concave="yes" name="base">
     <inertial>
       <origin rpy="0 0 0" xyz="0.00002849 -0.00022471 0.03657638"/>
       <mass value="0.6818"/>
@@ -29,7 +29,7 @@
   </link>
   <joint name="left_joint" type="prismatic">
     <origin rpy="0 0 0" xyz="0.0006 0 0.0481"/>
-    <parent link="gripper_base"/>
+    <parent link="base"/>
     <child link="left_slider"/>
     <axis xyz="1 0 0"/>
     <limit effort="1000" lower="0.000" upper="0.017" velocity="1000000"/>
@@ -56,21 +56,9 @@
       </geometry>
     </collision>
   </link>
-  <joint name="shadow_left_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="0 0 0"/>
-    <parent link="left_slider"/>
-    <child link="shadow_left_slider"/>
-  </joint>
-  <link name="shadow_left_slider">
-    <inertial>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <mass value="0.00001"/>
-      <inertia ixx="0.00001" ixy="0.0" ixz="0.0" iyy="0.00001" iyz="0.0" izz="0.00001"/>
-    </inertial>
-  </link>
   <joint name="right_joint" type="prismatic">
     <origin rpy="0 0 3.14159" xyz="-0.0006 0 0.0481"/>
-    <parent link="gripper_base"/>
+    <parent link="base"/>
     <child link="right_slider"/>
     <axis xyz="1 0 0"/>
     <limit effort="100000" lower="0.000" upper="0.017" velocity="1000000"/>
@@ -97,18 +85,6 @@
         <mesh filename="/home/gauss/projects/personal_ws/src/schunk_gripper_jpg_p_160/schunk_gripper_jpg_p_160_description/meshes/SCHUNK_parallel_gripper_finger_slider.STL"/>
       </geometry>
     </collision>
-  </link>
-  <joint name="shadow_right_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="0 0 0"/>
-    <parent link="right_slider"/>
-    <child link="shadow_right_slider"/>
-  </joint>
-  <link name="shadow_right_slider">
-    <inertial>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <mass value="0.00001"/>
-      <inertia ixx="0.00001" ixy="0.0" ixz="0.0" iyy="0.00001" iyz="0.0" izz="0.00001"/>
-    </inertial>
   </link>
   <joint name="left_finger_joint" type="fixed">
     <origin rpy="0 0 3.14159" xyz="0.0285 0 0.0289"/>
@@ -177,7 +153,7 @@
   </transmission>
   <transmission name="right_joint_trans">
     <type>transmission_interface/SimpleTransmission</type>
-    <joint name="left_joint_circle">
+    <joint name="right_joint_circle">
       <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
     </joint>
     <actuator name="right_joint_motor">
@@ -186,12 +162,26 @@
   </transmission>
   <joint name="left_joint_circle" type="revolute">
     <origin rpy="0 0.0 0" xyz="0.0 0.0 0.0"/>
-    <parent link="gripper_base"/>
+    <parent link="base"/>
     <child link="left_circle"/>
     <axis xyz="0 1 0"/>
     <limit effort="10000" lower="-100" upper="100" velocity="1000"/>
   </joint>
   <link name="left_circle">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0.0 -0.0 0.0"/>
+      <mass value="0.0001"/>
+      <inertia ixx="0.000001" ixy="0.0" ixz="0.0" iyy="0.000001" iyz="-0.0" izz="0.000001"/>
+    </inertial>
+  </link>
+  <joint name="right_joint_circle" type="revolute">
+    <origin rpy="0 0.0 0" xyz="0.0 0.0 0.0"/>
+    <parent link="base"/>
+    <child link="right_circle"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="10000" lower="-100" upper="100" velocity="1000"/>
+  </joint>
+  <link name="right_circle">
     <inertial>
       <origin rpy="0 0 0" xyz="0.0 -0.0 0.0"/>
       <mass value="0.0001"/>
@@ -228,26 +218,12 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <box size="0.01 0.1 0.01"/>
+        <box size="0.01 0.05 0.01"/>
       </geometry>
       <material name="">
         <color rgba="0.79216 0.81961 0.93333 1"/>
       </material>
     </visual>
-  </link>
-  <joint name="right_joint_circle" type="revolute">
-    <origin rpy="0 0.0 0" xyz="0.0 0.0 0.0"/>
-    <parent link="gripper_base"/>
-    <child link="right_circle"/>
-    <axis xyz="0 1 0"/>
-    <limit effort="10000" lower="-100" upper="100" velocity="1000"/>
-  </joint>
-  <link name="right_circle">
-    <inertial>
-      <origin rpy="0 0 0" xyz="0.0 -0.0 0.0"/>
-      <mass value="0.0001"/>
-      <inertia ixx="0.000001" ixy="0.0" ixz="0.0" iyy="0.000001" iyz="-0.0" izz="0.000001"/>
-    </inertial>
   </link>
   <joint name="middle_right_joint_circle" type="prismatic">
     <origin rpy="0 0 0" xyz="0 0 0"/>
@@ -279,12 +255,36 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <box size="0.01 0.1 0.01"/>
+        <box size="0.01 0.05 0.01"/>
       </geometry>
       <material name="">
         <color rgba="0.79216 0.81961 0.93333 1"/>
       </material>
     </visual>
+  </link>
+  <joint name="shadow_left_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <parent link="left_slider"/>
+    <child link="shadow_left_slider"/>
+  </joint>
+  <link name="shadow_left_slider">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="0.00001"/>
+      <inertia ixx="0.00001" ixy="0.0" ixz="0.0" iyy="0.00001" iyz="0.0" izz="0.00001"/>
+    </inertial>
+  </link>
+  <joint name="shadow_right_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <parent link="right_slider"/>
+    <child link="shadow_right_slider"/>
+  </joint>
+  <link name="shadow_right_slider">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="0.00001"/>
+      <inertia ixx="0.00001" ixy="0.0" ixz="0.0" iyy="0.00001" iyz="0.0" izz="0.00001"/>
+    </inertial>
   </link>
 </robot>
 

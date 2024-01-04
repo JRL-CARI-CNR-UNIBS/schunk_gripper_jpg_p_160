@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.11.0, 2024-01-01T21:59:36. -->
+<!-- Written by QtCreator 4.11.0, 2023-10-14T15:35:58. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
-  <value type="QByteArray">{201c7aee-465f-4326-affb-74bffce5b691}</value>
+  <value type="QByteArray">{ef69d126-08d4-4b70-9691-be3f861d8681}</value>
  </data>
  <data>
   <variable>ProjectExplorer.Project.ActiveTarget</variable>
@@ -54,17 +54,14 @@
  </data>
  <data>
   <variable>ProjectExplorer.Project.PluginSettings</variable>
-  <valuemap type="QVariantMap">
-   <valuelist type="QVariantList" key="ClangCodeModel.CustomCommandLineKey"/>
-   <value type="bool" key="ClangCodeModel.UseGlobalConfig">true</value>
-  </valuemap>
+  <valuemap type="QVariantMap"/>
  </data>
  <data>
   <variable>ProjectExplorer.Project.Target.0</variable>
   <valuemap type="QVariantMap">
    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Imported Kit</value>
    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Imported Kit</value>
-   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{59cea039-b6fb-4d4c-95f7-7bdde1bdc161}</value>
+   <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">{300f2202-58fd-46b0-900c-b449bd1df16f}</value>
    <value type="int" key="ProjectExplorer.Target.ActiveBuildConfiguration">0</value>
    <value type="int" key="ProjectExplorer.Target.ActiveDeployConfiguration">0</value>
    <value type="int" key="ProjectExplorer.Target.ActiveRunConfiguration">0</value>

@@ -3,18 +3,7 @@ project(schunk_gripper_jpg_p_160_description)
 
 find_package(catkin REQUIRED COMPONENTS
   rospy
-  message_generation
-  std_msgs
-)
-
-add_service_files(
-  FILES
-  MoveGripper.srv
-)
-
-generate_messages(
-  DEPENDENCIES
-  std_msgs
+  std_srvs
 )
 
 catkin_package(
